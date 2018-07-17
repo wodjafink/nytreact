@@ -1,82 +1,24 @@
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const routes = require("./routes");
+const app = express();
+const PORT = process.env.PORT || 3001;
 
-'use strict'
-
-// Requiring necessary npm packages
-const express = require('express')
-const morgan = require('morgan')
-const http = require('http')
-const io = require('socket.io')
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const passport = require('passport')
-const path = require('path')
-
-// Creating express app and configuring middleware needed for authentication
-const app = express()
-const server = http.createServer(app)
-const socketIo = io(server)
-
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-
-// request logging middleware
-app.use(morgan('dev'))
-
-// Serve up optimized static assets for production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'))
+// Define middleware here
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+// Serve up static assets (usually on heroku)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
 }
+// Add routes, both API and view
+app.use(routes);
 
-// We need to use sessions to keep track of our user's login status
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true
-}))
+// Connect to the Mongo DB
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nytreact");
 
-// Passing the passport singleton to our passport middleware to load our authentication strategies
-require('./middleware/passport')(passport)
-app.use(passport.initialize())
-app.use(passport.session())
-
-
-// Requiring our authentication routes
-require('./routes/auth.js')(app, passport)
-
-// Requiring our api routes
-require('./routes/api.js')(app)
-
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, './client/build/index.html'))
-})
-
-// Setup socket.io
-socketIo.on('connection', socket => {
-
-  const { username } = socket.handshake.query
-  console.log(`${ username } connected`)
-
-  socket.on('client:message', data => {
-    console.log(`${ data.username }: ${ data.body }`)
-
-    // message received from client, now broadcast it to everyone else
-    socket.broadcast.emit('server:message', data)
-  })
-
-  socket.on('disconnect', () => {
-    console.log(`${ username } disconnected`)
-  })
-
-})
-
-const PORT = process.env.PORT || 3001
-server.listen(PORT, () => {
-  console.log(`
-
-  ==> 🌎  Listening on port ${ PORT }. Visit http://localhost:${ PORT }/ in your browser.
-
-  `)
-})
-
-// export the app for testing
-module.exports = app
+// Start the API server
+app.listen(PORT, function() {
+  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+});
