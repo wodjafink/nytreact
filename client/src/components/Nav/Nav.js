@@ -8,8 +8,9 @@ const Nav = () => (
     <div className='container-fluid'>
       <div className='navbar-header'>
         <Link to='/' className='navbar-brand'>
-          Messaging App
+          New York Times Article Scrubber
         </Link>
+        <p>Search for and annotate articles of interest!</p>
       </div>
       {
         AuthInterface.isLoggedIn() ? (
