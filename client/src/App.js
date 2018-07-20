@@ -1,31 +1,24 @@
 
-import React from 'react'
+import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Conversations from './pages/Conversations'
-import CreateConversation from './pages/CreateConversation'
-import Auth from './pages/Auth'
 import NoMatch from './pages/NoMatch'
 import Nav from './components/Nav'
 import PrivateRoute from './utils/PrivateRoute'
+import Search from './pages/Search'
 
-const App = () => (
-  <Router>
-    <div>
-      <Nav />
+class App extends Component {
 
-      <Switch>
+  render() {
+    return (
+      <div>
+        <Search>
+        </Search>
 
-        <Route exact path='/login' component={ Auth } />
 
-        <PrivateRoute exact path='/' component={ Conversations } />
-        <PrivateRoute exact path='/conversation/new' component={ CreateConversation } />
+      </div>
+    )
+  }
 
-        <Route component={ NoMatch } />
-
-      </Switch>
-
-    </div>
-  </Router>
-)
+}
 
 export default App
