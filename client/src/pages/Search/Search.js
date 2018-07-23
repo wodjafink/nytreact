@@ -22,17 +22,22 @@ class Search extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
 
-    
+    let params = [];
+    params.push(this.state.topic);
+    params.push(this.state.startYear);
+    params.push(this.state.endYear);
+
+    this.props.sendParams(params);
   }
 
   render() {
     return (
       <Container fluid>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Search</h3>
+        <div className="panel panel-default">
+          <div className="panel-heading">
+            <h3 className="panel-title">Search</h3>
           </div>
-          <div class="panel-body">
+          <div className="panel-body">
             <form>
               <Input
                 value={ this.state.topic }
