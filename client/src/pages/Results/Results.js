@@ -8,29 +8,31 @@ class Results extends Component {
     articleList: []
   }
 
-  handleSave() {
+  _handleSave() {
     console.log("Clicked save button")
   }
 
   componentDidMount() {
-    setInterval(() => {
-        this.setState(() => {
-            console.log('setting state');
-            return { unseen: "does not display" }
-        });
-    }, 1000);
+    // setInterval(() => {
+    //     this.setState(() => {
+    //         console.log('setting state');
+    //         return { unseen: "does not display" }
+    //     });
+    // }, 1000);
+
+    console.log('mounted: ', this.props)
   }
 
-  componentWillReceiveProps(someProp) {
-    this.setState({queryResults: someProp})
-    console.log("Component received props")
-  }
+  // componentWillReceiveProps(someProp) {
+  //   this.setState({queryResults: someProp})
+  //   console.log("Component received props")
+  // }
 
-  shouldComponentUpdate(nextProps){
-    const newArticles = this.props.queryResults !== nextProps.queryResults;
-    console.log("state changed");
-    return newArticles;
-  }
+  // shouldComponentUpdate(nextProps){
+  //   const newArticles = this.props.queryResults !== nextProps.queryResults;
+  //   console.log("state changed");
+  //   return newArticles;
+  // }
 
   refreshArticleList() {
     if (this.props.queryResults){
@@ -44,8 +46,8 @@ class Results extends Component {
 	render() {
 
     // const {queryResults} = this.props
-    console.log("Render results");
-    var that = this;
+    // console.log("Render results");
+    // var this = this;
 		return (
 	      <Container fluid>
 	        <div className="panel panel-default">
@@ -54,11 +56,11 @@ class Results extends Component {
 	          </div>
 	          <div className="panel-body">
               <ul className="list-group col-md-8 col-md-offset-2">
-                { that.props.queryResults ? 
-                  that.props.queryResults.map(function(search, i) {
+                { this.props.queryResults ? 
+                  this.props.queryResults.map((search, i) => {
                     console.log("i is " + i);
                     // Build array of articles
-                    that.state.articleList.push({
+                    this.state.articleList.push({
                       id: search._id,
                       title: search.headline.main,
                       date: search.pub_date,
@@ -71,7 +73,7 @@ class Results extends Component {
                             <a href={search.web_url} target="_new" style={ {color: "black"} }>{search.headline.main}</a>
                           </div>       
                           <span className="input-group-btn">
-                            <button className="btn btn-success" type="button" onClick={that._handleSave} value={search._id}>Save</button>
+                            <button className="btn btn-success" type="button" onClick={this._handleSave} value={search._id}>Save</button>
                           </span>
                         </div>
                       </li>

@@ -23,9 +23,10 @@ class App extends Component {
   }
 
   APISearchCall() {
+    console.log('querying nyt')
     queryNYT.articleQuery(this.state.searchParams[0], this.state.searchParams[1], this.state.searchParams[2])
     .then(function(data) {
-        //console.log(data);
+        console.log('nyt data: ', data);
         this.setState({ searchResults: data }, this.displayState);
       }.bind(this));
   }
@@ -38,10 +39,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Search sendParams={this.searchCallback}>
-        </Search>
-        <Results queryResults={this.searchResults}>
-        </Results>
+        <Search sendParams={this.searchCallback} />
+        <Results queryResults={this.state.searchResults} />
       </div>
     )
   }
