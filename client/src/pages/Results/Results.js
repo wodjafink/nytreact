@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Container } from '../../components/Grid'
+import API from '../../utils/API'
 // import { Input, FormBtn } from '../../components/Form'
 
 class Results extends Component {
@@ -8,31 +9,23 @@ class Results extends Component {
     articleList: []
   }
 
-  _handleSave() {
+  _handleSave(articleID) {
     console.log("Clicked save button")
+    console.log(articleID);
+    var saveArticle = {};
+    this.state.articleList.forEach(article=>{
+      if (article.id === articleID){
+        saveArticle = article;
+      }
+    })
+    console.log(saveArticle);
+    API.saveArticle(saveArticle)
   }
 
   componentDidMount() {
-    // setInterval(() => {
-    //     this.setState(() => {
-    //         console.log('setting state');
-    //         return { unseen: "does not display" }
-    //     });
-    // }, 1000);
 
     console.log('mounted: ', this.props)
   }
-
-  // componentWillReceiveProps(someProp) {
-  //   this.setState({queryResults: someProp})
-  //   console.log("Component received props")
-  // }
-
-  // shouldComponentUpdate(nextProps){
-  //   const newArticles = this.props.queryResults !== nextProps.queryResults;
-  //   console.log("state changed");
-  //   return newArticles;
-  // }
 
   refreshArticleList() {
     if (this.props.queryResults){
@@ -45,9 +38,6 @@ class Results extends Component {
 
 	render() {
 
-    // const {queryResults} = this.props
-    // console.log("Render results");
-    // var this = this;
 		return (
 	      <Container fluid>
 	        <div className="panel panel-default">
@@ -73,7 +63,7 @@ class Results extends Component {
                             <a href={search.web_url} target="_new" style={ {color: "black"} }>{search.headline.main}</a>
                           </div>       
                           <span className="input-group-btn">
-                            <button className="btn btn-success" type="button" onClick={this._handleSave} value={search._id}>Save</button>
+                            <button className="btn btn-success" type="button" onClick={() => {this._handleSave(search._id)}}>Save</button>
                           </span>
                         </div>
                       </li>
