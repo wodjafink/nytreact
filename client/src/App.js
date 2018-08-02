@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 // import PrivateRoute from './utils/PrivateRoute'
 import Search from './pages/Search'
 import Results from './pages/Results'
+import Favorites from './pages/Favorites'
 
 import queryNYT from "./utils/queryNYT.js"
 
@@ -41,6 +42,7 @@ class App extends Component {
       <div>
         <Search sendParams={this.searchCallback} />
         <Results queryResults={this.state.searchResults} />
+        <Favorites />
       </div>
     )
   }
