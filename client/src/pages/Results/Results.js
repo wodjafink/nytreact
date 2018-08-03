@@ -19,7 +19,18 @@ class Results extends Component {
       }
     })
     console.log(saveArticle);
-    API.saveArticle(saveArticle)
+    API.saveArticle(saveArticle).then(res => {
+        var tempFaves = []
+        API.getArticles().then(res => {
+          console.log("Favorites response")
+          console.log(res);
+          res.data.forEach(article => {
+            tempFaves.push(article);
+          })
+          this.props.updateFavorites(tempFaves)
+        })
+      }
+    )
   }
 
   componentDidMount() {

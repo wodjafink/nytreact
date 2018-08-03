@@ -9,12 +9,22 @@ import Results from './pages/Results'
 import Favorites from './pages/Favorites'
 
 import queryNYT from "./utils/queryNYT.js"
+import API from "./utils/API.js"
 
 class App extends Component {
 
   state = {
     searchParams: ["","",""],
-    searchResults: []
+    searchResults: [],
+    favoritesList: []
+  }
+
+  setFavorites = (newFaves) => {
+    this.setState({favoritesList: newFaves})
+  }
+
+  componentDidMount() {
+    // this.updateFavorites();
   }
 
   displayState() {
@@ -41,8 +51,8 @@ class App extends Component {
     return (
       <div>
         <Search sendParams={this.searchCallback} />
-        <Results queryResults={this.state.searchResults} />
-        <Favorites />
+        <Results queryResults={this.state.searchResults} updateFavorites={this.setFavorites}/>
+        <Favorites favoritesList={this.state.favoritesList} updateFavorites={this.setFavorites}/>
       </div>
     )
   }

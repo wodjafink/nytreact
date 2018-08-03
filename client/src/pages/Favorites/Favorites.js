@@ -9,16 +9,30 @@ class Favorites extends Component {
   }
 
   componentDidMount(){
-    console.log("Mounted Favorites")
+    console.log("Mounted Favorites " + this.props)
+
     var tempFaves = []
+
     API.getArticles().then(res => {
       console.log("Favorites response")
       console.log(res);
       res.data.forEach(article => {
         tempFaves.push(article);
       })
-      this.setState({favoritesList: tempFaves})
+      this.props.updateFavorites(tempFaves)
+      this.setState({favoritesList: this.props.favoritesList})
     })
+    
+
+    // var tempFaves = []
+    // API.getArticles().then(res => {
+    //   console.log("Favorites response")
+    //   console.log(res);
+    //   res.data.forEach(article => {
+    //     tempFaves.push(article);
+    //   })
+    //   this.setState({favoritesList: tempFaves})
+    // })
   }
 
   render() {
@@ -30,8 +44,8 @@ class Favorites extends Component {
           </div>
           <div className="panel-body">
             <ul className="list-group col-md-8 col-md-offset-2">
-              { this.state.favoritesList ? 
-                this.state.favoritesList.map((article, i) => {
+              { this.props.favoritesList ? 
+                this.props.favoritesList.map((article, i) => {
                   console.log("i is " + i);
                   // Build array of articles
 
