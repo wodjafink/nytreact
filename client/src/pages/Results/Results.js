@@ -59,7 +59,6 @@ class Results extends Component {
               <ul className="list-group col-md-8 col-md-offset-2">
                 { this.props.queryResults ? 
                   this.props.queryResults.map((search, i) => {
-                    console.log("i is " + i);
                     // Build array of articles
                     this.state.articleList.push({
                       id: search._id,

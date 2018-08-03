@@ -14,6 +14,10 @@ export default {
     return axios.post("/api/articles", article);
   },
 
+  deleteArticle: function(articleID) {
+    return axios.delete("/api/articles/" + articleID);
+  },
+
   getArticles: function() {
     return axios.get("/api/articles");
   }

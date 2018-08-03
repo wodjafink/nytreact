@@ -8,9 +8,7 @@ class Favorites extends Component {
     favoritesList: []
   }
 
-  componentDidMount(){
-    console.log("Mounted Favorites " + this.props)
-
+  updateFavorites(){
     var tempFaves = []
 
     API.getArticles().then(res => {
@@ -22,17 +20,20 @@ class Favorites extends Component {
       this.props.updateFavorites(tempFaves)
       this.setState({favoritesList: this.props.favoritesList})
     })
-    
+  }
 
-    // var tempFaves = []
-    // API.getArticles().then(res => {
-    //   console.log("Favorites response")
-    //   console.log(res);
-    //   res.data.forEach(article => {
-    //     tempFaves.push(article);
-    //   })
-    //   this.setState({favoritesList: tempFaves})
-    // })
+  componentDidMount(){
+    console.log("Mounted Favorites " + this.props)
+
+
+    this.updateFavorites();
+  }
+
+  _handleDelete(articleID) {
+    API.deleteArticle(articleID).then(res => {
+      this.updateFavorites();
+    })
+
   }
 
   render() {
@@ -46,14 +47,18 @@ class Favorites extends Component {
             <ul className="list-group col-md-8 col-md-offset-2">
               { this.props.favoritesList ? 
                 this.props.favoritesList.map((article, i) => {
-                  console.log("i is " + i);
                   // Build array of articles
 
                   return (
                     <li key={article._id} className="list-group-item">
-                      <div type="text" className="form-control">
-                        <a href={article.url} target="_new" style={ {color: "black"} }>{article.title}</a>
-                      </div>       
+                      <div className="input-group">
+                        <div type="text" className="form-control">
+                          <a href={article.url} target="_new" style={ {color: "black"} }>{article.title}</a>
+                        </div>
+                        <span className="input-group-btn">
+                          <button className="btn btn-danger" type="button" onClick={() => {this._handleDelete(article._id)}}>Remove</button>
+                        </span>
+                      </div>
                     </li>
                   );
                 })
