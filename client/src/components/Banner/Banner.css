@@ -1,0 +1,18 @@
+Parallax { 
+    /* The image used */
+
+    /* Full height */
+    height: 500px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: horizontal-center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Parallax-Title {
+  display: table-cell;
+  justify-content: 'center';
+  align-items: 'center';
+}

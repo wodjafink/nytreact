@@ -1,12 +1,10 @@
 
 import React, { Component } from 'react'
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-// import NoMatch from './pages/NoMatch'
-// import Nav from './components/Nav'
-// import PrivateRoute from './utils/PrivateRoute'
+import Banner from './components/Banner'
 import Search from './pages/Search'
 import Results from './pages/Results'
 import Favorites from './pages/Favorites'
+import Jumbotron from './components/Jumbotron'
 
 import queryNYT from "./utils/queryNYT.js"
 import API from "./utils/API.js"
@@ -50,10 +48,15 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Banner></Banner> 
+        <Jumbotron>  
+          <h1 style={{textAlign: 'center'}}>NYT Article Scraper</h1>
+
+        </Jumbotron>
         <Search sendParams={this.searchCallback} />
         <Results queryResults={this.state.searchResults} updateFavorites={this.setFavorites}/>
         <Favorites favoritesList={this.state.favoritesList} updateFavorites={this.setFavorites}/>
-      </div>
+      </div>  
     )
   }
 
